@@ -4,7 +4,7 @@ import './App.scss';
 import { HomePage } from './pages/HomePage';
 import { TabsPage } from './pages/TabsPage';
 import { PageNotFound } from './pages/PageNotFound';
-import { Routes, Route, NavLink, Navigate } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
 const tabs = [
@@ -14,8 +14,7 @@ const tabs = [
 ];
 
 export const App = () => {
-  const activeClassName = ({ isActive }: { isActive: boolean }) =>
-    classNames('navbar-item', { 'is-active': isActive });
+  const { pathname } = useLocation();
 
   return (
     <>
@@ -26,12 +25,22 @@ export const App = () => {
       >
         <div className="container">
           <div className="navbar-brand">
-            <NavLink to="/" className={activeClassName}>
+            <Link
+              to="/"
+              className={classNames('navbar-item', {
+                'is-active': pathname === '/',
+              })}
+            >
               Home
-            </NavLink>
-            <NavLink to="/tabs" className={activeClassName}>
+            </Link>
+            <Link
+              to="/tabs"
+              className={classNames('navbar-item', {
+                'is-active': pathname.startsWith('/tabs'),
+              })}
+            >
               Tabs
-            </NavLink>
+            </Link>
           </div>
         </div>
       </nav>
